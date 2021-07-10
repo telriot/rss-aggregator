@@ -21,13 +21,15 @@ interface AvatarProps {
 	size: string;
 	colorIndex?: number;
 	className?: string;
+	onClick?: () => void;
 }
 const Avatar: FC<AvatarProps> = ({
 	text,
 	fontSize = '1rem',
 	size,
 	colorIndex = 0,
-	className
+	className,
+	onClick
 }) => {
 	//  ======================================== HOOKS
 	//  ======================================== STATE
@@ -37,6 +39,7 @@ const Avatar: FC<AvatarProps> = ({
 	return (
 		<div
 			className={clsx(className, 'text-white grid place-items-center rounded')}
+			onClick={onClick}
 			style={{
 				background: PALETTE[colorIndex],
 				fontSize,

@@ -5,15 +5,16 @@ import clsx from 'clsx'
 interface CardProps {
     children: ReactNode
     className?:string
+    onClick?:()=>void
 }
-const Card : FC<CardProps> = ({children, className}) => {
+const Card : FC<CardProps> = ({children, className, onClick}) => {
     //  ======================================== HOOKS
     //  ======================================== STATE
     //  ======================================== HANDLERS
     //  ======================================== EFFECTS
     //  ======================================== JSX
     return (
-        <div className={clsx(className, 'flex mb-3 bg-gray-50 shadow-md rounded')}>
+        <div className={clsx(className, 'flex mb-3 bg-gray-50 shadow-md rounded')} onClick={onClick}>
             {children}
         </div>
     )

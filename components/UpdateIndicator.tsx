@@ -1,40 +1,28 @@
 //  ======================================== IMPORTS
+import clsx from 'clsx'
 import React, {FC} from 'react'
-import clsx from 'clsx';
+import { FeedItem } from 'types'
+import Card from './common/Card'
 
 //  ======================================== COMPONENT
-export interface SearchBarProps {
-	className?: string;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	value: string;
-	id?: string;
-}
 
-const SearchBar: FC<SearchBarProps> = ({
-	className,
-	onChange,
-	value,
-	id = 'search-bar'
-}) => {
+interface UpdateIndicatorProps {
+    updateItems:FeedItem[]
+    onUpdate:() => void
+}
+const UpdateIndicator : FC<UpdateIndicatorProps> = ({updateItems, onUpdate}) => {
     //  ======================================== HOOKS
     //  ======================================== STATE
     //  ======================================== HANDLERS
     //  ======================================== EFFECTS
     //  ======================================== JSX
     return (
-		<div className={clsx(className)}>
-			<input
-				aria-label={id}
-				className=' w-full py-2 px-4 rounded text-text-primary'
-				type='text'
-				onChange={onChange}
-				value={value}
-				placeholder='Search feeds...'
-			/>
-		</div>
+        <Card className={clsx('flex items-center justify-center p-3 bg-blue-300 text-white cursor-pointer', updateItems.length?'visible':'hidden')} onClick={onUpdate}>
+            {updateItems.length} new stories available!
+        </Card>
     )
 }
  
 //  ======================================== EXPORTS
-export default SearchBar
+export default UpdateIndicator
 //  ========================================

@@ -7,7 +7,7 @@ const Title: FC = () => {
 	//  ======================================== HANDLERS
 	//  ======================================== EFFECTS
 	//  ======================================== JSX
-	return <h1 className='text-3xl mb-3'>The bubbling pot</h1>;
+	return <h1 className='text-3xl'>The bubbling pot</h1>;
 };
 
 //  ======================================== EXPORTS

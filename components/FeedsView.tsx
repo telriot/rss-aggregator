@@ -1,8 +1,9 @@
 //  ======================================== IMPORTS
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import FeedItemCard from './FeedItemCard';
-import { Feed, FeedItem } from 'types';
+import { FeedItem } from 'types';
 import { useFilter } from 'contexts/filterContext';
+import InViewDiv from './common/InViewDiv';
 // UTILS
 const byDate = (a: FeedItem, b: FeedItem) => {
 	const dateA = new Date(a.pubDate).getTime();
@@ -10,42 +11,43 @@ const byDate = (a: FeedItem, b: FeedItem) => {
 	return dateA < dateB ? 1 : dateA > dateB ? -1 : 0;
 };
 //  ======================================== COMPONENT
-const FeedsView: FC<{ feeds: Feed[] }> = ({ feeds }) => {
+const FeedsView: FC<{ feedItems: FeedItem[] }> = ({ feedItems }) => {
 	//  ======================================== HOOKS
 	//  ======================================== STATE
 	const {
 		state: { textSearch, activeFeeds }
 	} = useFilter();
-	const [aggregateFeeds, setAggregateFeeds] = React.useState<FeedItem[]>([]);
+	const [maxIndex, setMaxIndex] = useState<number>(30);
+	const [renderedFeeds, setRenderedFeeds] = useState<FeedItem[]>([]);
 	//  ======================================== HANDLERS
+	const onInView = () => {
+		setMaxIndex((prev) => prev + 30);
+	};
 	//  ======================================== EFFECTS
 	//  ======================================== JSX
-	React.useEffect(() => {
-		const aggregateItems: FeedItem[] = [];
-		feeds?.forEach((feed, index) =>
-			feed.value?.items?.forEach((item) =>
-				aggregateItems.push({
-					...item,
-					feed: feed.value.title,
-					feedIndex: index
-				})
-			)
-		);
-		const sortedItems = aggregateItems
+	useEffect(() => {
+		const sortedItems = feedItems
 			.filter(
 				(item) =>
-					item.title.includes(textSearch) &&
+					item.title.toLowerCase().includes(textSearch) &&
 					activeFeeds.includes(item.feedIndex)
 			)
-			.sort(byDate);
-		setAggregateFeeds(sortedItems);
-	}, [feeds, textSearch, aggregateFeeds]);
+			.sort(byDate)
+			.filter((_, index) => index < maxIndex);
+		setRenderedFeeds(sortedItems);
+	}, [feedItems, textSearch, activeFeeds, maxIndex]);
 
 	return (
 		<>
-			{aggregateFeeds.map((item) => (
-				<FeedItemCard key={item.link} feedItem={item} />
-			))}
+			{renderedFeeds.map((item, index) => {
+				return index === maxIndex - 5 ? (
+					<InViewDiv key={item.link} onInView={onInView}>
+						<FeedItemCard feedItem={item} />
+					</InViewDiv>
+				) : (
+					<FeedItemCard key={item.link} feedItem={item} />
+				);
+			})}
 		</>
 	);
 };
