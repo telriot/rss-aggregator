@@ -9,3 +9,4 @@ Renders automatically updated feeds as static props for rendering speed and upda
 - Automated feed updates
 - Infinite scroll
 - Easy customization
+- Fully responsive layout

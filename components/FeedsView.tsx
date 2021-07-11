@@ -40,20 +40,19 @@ const FeedsView: FC<{ feedItems: FeedItem[] }> = ({ feedItems }) => {
 
 	return (
 		<>
-			{
-			renderedFeeds.length?
-			renderedFeeds.map((item, index) => {
-				return index === maxIndex - 5 ? (
-					<InViewDiv key={item.link} onInView={onInView}>
-						<FeedItemCard feedItem={item} />
-					</InViewDiv>
-				) : (
-					<FeedItemCard key={item.link} feedItem={item} />
-				);
-			})
-			:
-			<NoResultsCard/>
-		}
+			{!renderedFeeds.length && textSearch ? (
+				<NoResultsCard />
+			) : (
+				renderedFeeds.map((item, index) => {
+					return index === maxIndex - 5 ? (
+						<InViewDiv key={item.link} onInView={onInView}>
+							<FeedItemCard feedItem={item} />
+						</InViewDiv>
+					) : (
+						<FeedItemCard key={item.link} feedItem={item} />
+					);
+				})
+			)}
 		</>
 	);
 };
