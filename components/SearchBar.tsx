@@ -25,11 +25,11 @@ const SearchBar: FC<SearchBarProps> = ({
 		<div className={clsx(className)}>
 			<input
 				aria-label={id}
-				className=' w-full py-2 px-4 rounded text-text-primary'
+				className=' w-full py-2 px-2 rounded '
 				type='text'
 				onChange={onChange}
 				value={value}
-				placeholder='Search feeds...'
+				placeholder='Search articles...'
 			/>
 		</div>
     )

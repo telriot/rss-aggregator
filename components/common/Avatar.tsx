@@ -1,8 +1,9 @@
 //  ======================================== IMPORTS
 import React, { FC } from 'react';
 import clsx from 'clsx';
+import color from 'color';
 //  ======================================== COMPONENT
-const PALETTE = [
+const PALETTE: string[] = [
 	'#f94144',
 	'#f3722c',
 	'#f8961e',
@@ -14,7 +15,6 @@ const PALETTE = [
 	'#577590',
 	'#277da1'
 ];
-
 interface AvatarProps {
 	text: string;
 	fontSize?: string;
@@ -22,6 +22,7 @@ interface AvatarProps {
 	colorIndex?: number;
 	className?: string;
 	onClick?: () => void;
+	disabled?: boolean;
 }
 const Avatar: FC<AvatarProps> = ({
 	text,
@@ -29,7 +30,8 @@ const Avatar: FC<AvatarProps> = ({
 	size,
 	colorIndex = 0,
 	className,
-	onClick
+	onClick,
+	disabled
 }) => {
 	//  ======================================== HOOKS
 	//  ======================================== STATE
@@ -38,10 +40,12 @@ const Avatar: FC<AvatarProps> = ({
 	//  ======================================== JSX
 	return (
 		<div
-			className={clsx(className, 'text-white grid place-items-center rounded')}
+			className={clsx('text-white grid place-items-center rounded', className)}
 			onClick={onClick}
 			style={{
-				background: PALETTE[colorIndex],
+				background: disabled
+					? color(PALETTE[colorIndex]).lighten(0.45).toString()
+					: PALETTE[colorIndex],
 				fontSize,
 				minHeight: size,
 				minWidth: size,

@@ -17,8 +17,8 @@ const UpdateIndicator : FC<UpdateIndicatorProps> = ({updateItems, onUpdate}) => 
     //  ======================================== EFFECTS
     //  ======================================== JSX
     return (
-        <Card className={clsx('flex items-center justify-center p-3 bg-blue-300 text-white cursor-pointer', updateItems.length?'visible':'hidden')} onClick={onUpdate}>
-            {updateItems.length} new stories available!
+        <Card className={clsx('flex items-center justify-center p-3 bg-blue-400 text-white cursor-pointer', updateItems.length?'visible':'hidden')} onClick={onUpdate}>
+            {updateItems.length} new {updateItems.length>1?'stories':'story'} available!
         </Card>
     )
 }

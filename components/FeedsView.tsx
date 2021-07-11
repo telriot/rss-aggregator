@@ -4,6 +4,7 @@ import FeedItemCard from './FeedItemCard';
 import { FeedItem } from 'types';
 import { useFilter } from 'contexts/filterContext';
 import InViewDiv from './common/InViewDiv';
+import NoResultsCard from './NoResultsCard';
 // UTILS
 const byDate = (a: FeedItem, b: FeedItem) => {
 	const dateA = new Date(a.pubDate).getTime();
@@ -39,7 +40,9 @@ const FeedsView: FC<{ feedItems: FeedItem[] }> = ({ feedItems }) => {
 
 	return (
 		<>
-			{renderedFeeds.map((item, index) => {
+			{
+			renderedFeeds.length?
+			renderedFeeds.map((item, index) => {
 				return index === maxIndex - 5 ? (
 					<InViewDiv key={item.link} onInView={onInView}>
 						<FeedItemCard feedItem={item} />
@@ -47,7 +50,10 @@ const FeedsView: FC<{ feedItems: FeedItem[] }> = ({ feedItems }) => {
 				) : (
 					<FeedItemCard key={item.link} feedItem={item} />
 				);
-			})}
+			})
+			:
+			<NoResultsCard/>
+		}
 		</>
 	);
 };

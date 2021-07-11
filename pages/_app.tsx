@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import 'tailwindcss/tailwind.css';
+import '../public/styles/index.css'
 import { AppProps } from 'next/app';
 import ThemeContext, { theme } from 'contexts/themeContext';
 import { FilterProvider } from 'contexts/filterContext';

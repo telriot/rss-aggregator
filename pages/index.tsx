@@ -5,9 +5,8 @@ import RejectedView from 'components/RejectedView';
 import FeedsView from 'components/FeedsView';
 import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
-import Title from 'components/Title';
-import FilterSection from 'components/FilterSection';
-import SearchBar from 'components/SearchBar';
+import FilterSection, { FilterSectionPopup } from 'components/FilterSection';
+import Header from 'components/layout/Header';
 import { useFilter } from 'contexts/filterContext';
 import Parser from 'rss-parser';
 import { Feed, FeedItem, APIResData } from 'types';
@@ -15,6 +14,8 @@ import { FEEDS } from 'public/feeds';
 import buildFeedData from 'utils/buildFeedData';
 import compare from 'utils/compareFeedUpdates';
 import UpdateIndicator from 'components/UpdateIndicator';
+import clsx from 'clsx';
+import { useMediaQuery } from 'react-responsive';
 
 interface SWRResponse {
 	data?: { feeds: Feed[] };
@@ -56,7 +57,6 @@ export const getStaticProps: GetStaticProps = async (): Promise<{
 		)) as Feed[];
 
 		data = buildFeedData(feeds);
-		console.log(data.feedItems[0]);
 		error = '';
 	} catch (err) {
 		console.error(err);
@@ -69,9 +69,12 @@ export const getStaticProps: GetStaticProps = async (): Promise<{
 };
 
 const Home: FC<IndexSSRProps> = ({ data, error }) => {
+	//  ======================================== HOOKS
 	const { data: updates }: SWRResponse = useSWR('/api/RSSParser', fetcher, {
 		refreshInterval: 60000
 	});
+	const isMd = useMediaQuery({ query: '(min-width: 768px)' });
+
 	//  ======================================== STATE
 	const { state, dispatch } = useFilter();
 	const [feedItems, setFeedItems] = useState<FeedItem[]>(data.feedItems);
@@ -90,7 +93,7 @@ const Home: FC<IndexSSRProps> = ({ data, error }) => {
 	React.useEffect(() => {
 		if (data && updates) {
 			const newItems = compare(
-				data.feedItems,
+				feedItems,
 				buildFeedData(updates.feeds).feedItems
 			);
 			setUpdateItems(newItems);
@@ -100,24 +103,20 @@ const Home: FC<IndexSSRProps> = ({ data, error }) => {
 	//  ======================================== JSX
 	return (
 		<>
-			<header className='sticky top-0 bg-white py-2'>
-				<div className='container mx-auto px-3'>
-					<Title />
-				</div>
-			</header>
+			<Header />
 			<div aria-label='app-container' className='container mx-auto px-3'>
-				<section className='grid grid-cols-12 gap-3'>
-					<aside className='col-span-3 flex flex-col'>
-						<div className='sticky top-12'>
-							<SearchBar
-								className='shadow-md mb-3'
-								onChange={onSearchChange}
-								value={state.textSearch}
-							/>
-							<FilterSection />
-						</div>
+				<section className={clsx('md:grid md:grid-cols-12 md:gap-3')}>
+					<aside className='md:col-span-3 flex flex-col'>
+						{isMd ? (
+							<div className='md:sticky md:top-24'>
+								<div className='pt-6 mb-2 text-xl font font-display'>Feeds</div>{' '}
+								<FilterSection />
+							</div>
+						) : (
+							<FilterSectionPopup />
+						)}
 					</aside>
-					<main className='col-start-4 col-span-9'>
+					<main className='md:col-start-4 md:col-span-9 pt-4 md:pt-6'>
 						{error ? (
 							<RejectedView />
 						) : !data ? (
