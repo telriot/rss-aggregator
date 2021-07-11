@@ -96,7 +96,7 @@ const Home: FC<IndexSSRProps> = ({ data, error }) => {
 	return (
 		<>
 			<Head>
-				<title>The Boiling Pot</title>
+				<title>The Bubbling Pot</title>
 				<html lang='en' />
 			</Head>
 			<Header />
