@@ -1,5 +1,5 @@
 //  ======================================== IMPORTS
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import FeedItemCard from './FeedItemCard';
 import { FeedItem } from 'types';
 import { useFilter } from 'contexts/filterContext';

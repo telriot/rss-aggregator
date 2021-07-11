@@ -7,15 +7,14 @@ import useSWR from 'swr';
 import fetcher from 'utils/fetcher';
 import FilterSection, { FilterSectionPopup } from 'components/FilterSection';
 import Header from 'components/layout/Header';
-import { useFilter } from 'contexts/filterContext';
 import Parser from 'rss-parser';
-import { Feed, FeedItem, APIResData } from 'types';
+import { APIResData, Feed, FeedItem } from 'types';
 import { FEEDS } from 'public/feeds';
 import buildFeedData from 'utils/buildFeedData';
 import compare from 'utils/compareFeedUpdates';
 import UpdateIndicator from 'components/UpdateIndicator';
 import clsx from 'clsx';
-import { useMediaQuery } from 'react-responsive';
+import Head from 'next/head';
 
 interface SWRResponse {
 	data?: { feeds: Feed[] };
@@ -73,16 +72,9 @@ const Home: FC<IndexSSRProps> = ({ data, error }) => {
 	const { data: updates }: SWRResponse = useSWR('/api/RSSParser', fetcher, {
 		refreshInterval: 60000
 	});
-	const isMd = useMediaQuery({ query: '(min-width: 768px)' });
-
 	//  ======================================== STATE
-	const { state, dispatch } = useFilter();
 	const [feedItems, setFeedItems] = useState<FeedItem[]>(data.feedItems);
 	const [updateItems, setUpdateItems] = useState<FeedItem[]>([]);
-
-	const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch({ type: 'textSearchSet', payload: e.target.value.toLowerCase() });
-	};
 
 	//  ======================================== HANDLERS
 	const onFeedsUpdate = () => {
@@ -98,23 +90,25 @@ const Home: FC<IndexSSRProps> = ({ data, error }) => {
 			);
 			setUpdateItems(newItems);
 		}
-	}, [updates, data]);
+	}, [updates, data, feedItems]);
 
 	//  ======================================== JSX
 	return (
 		<>
+			<Head>
+				<title>The Boiling Pot</title>
+				<html lang='en' />
+			</Head>
 			<Header />
 			<div aria-label='app-container' className='container mx-auto px-3'>
 				<section className={clsx('md:grid md:grid-cols-12 md:gap-3')}>
 					<aside className='md:col-span-3 flex flex-col'>
-						{isMd ? (
-							<div className='md:sticky md:top-24'>
-								<div className='pt-6 mb-2 text-xl font font-display'>Feeds</div>{' '}
-								<FilterSection />
-							</div>
-						) : (
-							<FilterSectionPopup />
-						)}
+						<div className='hidden md:block md:sticky md:top-24'>
+							<div className='pt-6 mb-2 text-xl font font-display'>Feeds</div>{' '}
+							<FilterSection />
+						</div>
+
+						<FilterSectionPopup />
 					</aside>
 					<main className='md:col-start-4 md:col-span-9 pt-4 md:pt-6'>
 						{error ? (

@@ -3,6 +3,7 @@
 	font-family: "Raleway";
 	font-style: normal;
 	font-weight: 400;
+	font-display: swap;
 	src: url("/fonts/raleway-v18-latin-regular.eot"); /* IE9 Compat Modes */
 	src: local(""),
 		url("/fonts/raleway-v18-latin-regular.eot?#iefix")
@@ -20,6 +21,7 @@
 	font-family: "Abril Fatface";
 	font-style: normal;
 	font-weight: 400;
+	font-display: swap;
 	src: url("/fonts/AbrilFatface-Regular.eot"); /* IE9 Compat Modes */
 	src: local(""),
 		url("/fonts/AbrilFatface-Regular.eot?#iefix")

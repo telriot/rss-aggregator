@@ -6,7 +6,6 @@ import Avatar from './common/Avatar';
 import Card from './common/Card';
 import { FEEDS } from 'public/feeds';
 import parseDate from 'utils/parseDate';
-import { useMediaQuery } from 'react-responsive';
 
 //  ======================================== COMPONENT
 interface FeedItemCardProps {
@@ -16,7 +15,6 @@ interface FeedItemCardProps {
 const FeedItemCard: FC<FeedItemCardProps> = ({ className, feedItem }) => {
 	//  ======================================== HOOKS
 	//  ======================================== STATE
-	const isSm = useMediaQuery({ query: '(min-width: 640px)' });
 
 	//  ======================================== HANDLERS
 	const onClick = () => {
@@ -29,31 +27,28 @@ const FeedItemCard: FC<FeedItemCardProps> = ({ className, feedItem }) => {
 	const feed = FEEDS[feedItem.feedIndex];
 	return (
 		<Card className={clsx(className, 'flex items-center px-2')}>
-			{isSm && (
 				<Avatar
-					className='cursor-pointer'
+					className='hidden sm:grid cursor-pointer'
 					onClick={onClick}
 					text={feed.capitals}
 					colorIndex={feed?.id}
 					size='4rem'
 					fontSize='1.75rem'
 				/>
-			)}
 			<div className='flex flex-col p-2 overflow-hidden'>
 				<h3 className='mb-1 sm:truncate cursor-pointer' onClick={onClick}>
 					{feedItem.title}
 				</h3>
 				<div className='flex items-center'>
-					{!isSm && (
+
 						<Avatar
-							className='cursor-pointer mr-2'
+							className='sm:hidden cursor-pointer mr-2'
 							onClick={onClick}
 							text={feed.capitals}
 							colorIndex={feed?.id}
 							size='2.5rem'
 							fontSize='1rem'
 						/>
-					)}
 					<div className='flex flex-col'>
 						<span className='text-xs text-gray-500'>
 							By {feedItem.author || feedItem.creator} in <i>{feedItem.feed}</i>
