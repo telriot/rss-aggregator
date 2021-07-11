@@ -97,7 +97,6 @@ const Home: FC<IndexSSRProps> = ({ data, error }) => {
 		<>
 			<Head>
 				<title>The Bubbling Pot</title>
-				<html lang='en' />
 			</Head>
 			<Header />
 			<div aria-label='app-container' className='container mx-auto px-3'>
