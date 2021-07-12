@@ -5,7 +5,11 @@
  */
 const getMs = (date: Date | string): number => {
 	const dateObj = new Date(date);
-	return dateObj.getTime();
+	const ms = dateObj.getTime();
+	if(isNaN(ms)){
+		return 0
+	}
+	return ms
 };
 
 export default getMs;

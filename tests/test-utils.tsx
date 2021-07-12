@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, ReactElement } from 'react';
 import { render } from '@testing-library/react';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import { NextRouter } from 'next/dist/client/router';
+import { FilterProvider } from 'contexts/filterContext';
 export const MockRouter = (route = '') => ({
 	basePath: '',
 	pathname: `/${route}`,
@@ -21,8 +22,8 @@ export const MockRouter = (route = '') => ({
 	},
 	isFallback: false,
 	isLocaleDomain: false,
-	isReady:true,
-	isPreview:false
+	isReady: true,
+	isPreview: false
 });
 
 const theme = require('../public/styles/theme');
@@ -34,13 +35,13 @@ const Providers =
 		return (
 			<ThemeContext.Provider value={theme}>
 				<RouterContext.Provider value={Router}>
-					{children}
+					<FilterProvider>{children}</FilterProvider>
 				</RouterContext.Provider>
 			</ThemeContext.Provider>
 		);
 	};
 
-const customRender = (ui:ReactElement, options = { route: '' }) =>
+const customRender = (ui: ReactElement, options = { route: '' }) =>
 	render(ui, { wrapper: Providers(MockRouter(options.route)), ...options });
 
 // re-export everything

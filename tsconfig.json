@@ -29,7 +29,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "include": [
     "**/*.ts",
