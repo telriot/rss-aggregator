@@ -73,7 +73,7 @@ const Home: FC<IndexSSRProps> = ({ data, error }) => {
 		refreshInterval: 60000
 	});
 	//  ======================================== STATE
-	const [feedItems, setFeedItems] = useState<FeedItem[]>(data.feedItems);
+	const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
 	const [updateItems, setUpdateItems] = useState<FeedItem[]>([]);
 
 	//  ======================================== HANDLERS
@@ -89,6 +89,8 @@ const Home: FC<IndexSSRProps> = ({ data, error }) => {
 				buildFeedData(updates.feeds).feedItems
 			);
 			setUpdateItems(newItems);
+		} else if(data){
+			setFeedItems(data.feedItems)
 		}
 	}, [updates, data, feedItems]);
 
